@@ -424,6 +424,7 @@ tbody tr:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    overflow: visible; /* Ensure grid doesn't cause scrolling */
 }
 
 @media (max-width: 768px) {
@@ -432,177 +433,31 @@ tbody tr:hover {
     }
 }
 
+/* Chart box with fixed height to prevent scrolling */
 .chart-box {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     margin-bottom: 20px;
+    height: 300px; /* Fixed height */
+    max-height: 300px; /* Maximum height */
+    overflow: hidden; /* Hide overflow */
 }
 
 .chart-box h3 {
-    margin-bottom: 10px;
-    font-size: 1rem;
-}
-
-/* Prompt categories */
-.prompt-categories {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
-
-.category-button {
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    background-color: #f0f0f0;
-    cursor: pointer;
-}
-
-.category-button.active {
-    background-color: #6c5ce7;
-    color: white;
-    border-color: #6c5ce7;
-}
-
-/* Prompt list */
-.prompts-list {
-    margin-bottom: 30px;
-}
-
-.prompt-item {
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.prompt-item.active {
-    background-color: #fff4e3;
-    border-color: #ffeacc;
-}
-
-.prompt-item.completed {
-    border-left: 4px solid #4cd137;
-}
-
-.prompt-status {
-    font-size: 0.8rem;
-    padding: 5px 10px;
-    border-radius: 15px;
-}
-
-.prompt-item.active .prompt-status {
-    background-color: #ff9f43;
-    color: white;
-}
-
-.prompt-item.completed .prompt-status {
-    color: #4cd137;
-}
-
-/* Skill development */
-.skill-development {
-    margin-top: 30px;
-}
-
-.skill-development h3 {
+    margin-top: 0;
     margin-bottom: 15px;
+    font-size: 1rem;
+    color: #333;
 }
 
-.skill-bars {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.chart-box canvas {
+    height: 250px !important;
+    width: 100% !important;
+    max-height: 250px !important; /* Force max height on canvas */
 }
 
-.skill-item {
-    display: flex;
-    align-items: center;
-}
-
-.skill-label {
-    width: 150px;
-    font-size: 0.9rem;
-}
-
-.skill-bar {
-    flex: 1;
-    height: 12px;
-    background-color: #f0f0f0;
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 0 15px;
-}
-
-.skill-progress {
-    height: 100%;
-    background-color: #6c5ce7;
-    border-radius: 6px;
-}
-
-.skill-percentage {
-    width: 40px;
-    font-size: 0.8rem;
-    text-align: right;
-    color: #666;
-}
-
-.skill-note {
-    font-size: 0.8rem;
-    color: #666;
-    margin-top: 15px;
-    font-style: italic;
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-    .app-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    .user-level {
-        width: 100%;
-    }
-    
-    .level-bar {
-        flex: 1;
-    }
-    
-    .skill-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .skill-label {
-        width: 100%;
-        margin-bottom: 5px;
-    }
-    
-    .skill-bar {
-        width: 100%;
-        margin: 5px 0;
-    }
-
-    /* Quest status */
-.quest-complete {
-    color: #4cd137;
-    font-weight: bold;
-    margin-left: 10px;
-}
-
-.quest-item.completed {
-    border-left: 4px solid #4cd137;
-}
-
-/* Calendar grid */
-.streak-calendar-grid {
-    margin: 10px 0;
-}
 /* Modal Styles */
 .modal {
     display: none;
@@ -735,4 +590,80 @@ tbody tr:hover {
 .streak-calendar-grid {
     margin: 10px 0;
 }
+
+/* Avatar Gallery Styles */
+.avatar-gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .avatar-gallery-container {
+        flex-direction: row;
+    }
+}
+
+.avatar-preview {
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.avatar-items {
+    flex: 1;
+}
+
+.item-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.avatar-item {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-item.equipped {
+    border-color: #6c5ce7;
+    background-color: #f0eaff;
+}
+
+.avatar-item.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.item-icon {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.item-unlock {
+    font-size: 0.8rem;
+    color: #666;
 }

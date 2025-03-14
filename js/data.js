@@ -21,6 +21,22 @@ const WriterQuest = {
         description: 0
     },
     
+    avatar: {
+        unlockedItems: ['base'],
+        equippedItems: ['base'],
+        availableItems: [
+            { id: 'base', name: 'Base Character', type: 'base', level: 1 },
+            { id: 'glasses', name: 'Glasses', type: 'accessory', level: 2 },
+            { id: 'pen', name: 'Fancy Pen', type: 'accessory', level: 3 },
+            { id: 'notebook', name: 'Notebook', type: 'accessory', level: 4 },
+            { id: 'coffee', name: 'Coffee Mug', type: 'accessory', level: 5 },
+            { id: 'hat', name: 'Writer\'s Hat', type: 'hat', level: 7 },
+            { id: 'typewriter', name: 'Typewriter', type: 'tool', level: 10 },
+            { id: 'cloak', name: 'Writer\'s Cloak', type: 'clothing', level: 12 },
+            { id: 'quill', name: 'Quill Pen', type: 'tool', level: 15 }
+        ]
+    },
+    
     // Sample data for testing - remove for production
     prompts: [
         {
@@ -86,6 +102,7 @@ function initializeData() {
         WriterQuest.achievements = parsedData.achievements || [];
         WriterQuest.completedPrompts = parsedData.completedPrompts || [];
         WriterQuest.skills = parsedData.skills || WriterQuest.skills;
+        WriterQuest.avatar = parsedData.avatar || WriterQuest.avatar;
         
         console.log('Data loaded from localStorage');
     } else {
@@ -129,6 +146,7 @@ function addWritingSession(session) {
 
 // Add XP to user and check for level up
 function addXP(amount) {
+    const previousLevel = WriterQuest.user.level;
     WriterQuest.user.xp += amount;
     
     // Check for level up (simple formula: each level needs level * 1000 XP)
@@ -138,8 +156,34 @@ function addXP(amount) {
         WriterQuest.user.level++;
         console.log(`Leveled up to ${WriterQuest.user.level}!`);
         
+        // Check for avatar unlocks
+        checkAvatarUnlocks();
+        
         // Could trigger level up notification here
     }
+}
+
+// Check for avatar unlocks
+function checkAvatarUnlocks() {
+    const currentLevel = WriterQuest.user.level;
+    
+    // Check for new unlocks
+    WriterQuest.avatar.availableItems.forEach(item => {
+        if (item.level <= currentLevel && !WriterQuest.avatar.unlockedItems.includes(item.id)) {
+            // Unlock new item
+            WriterQuest.avatar.unlockedItems.push(item.id);
+            
+            // Auto-equip certain items
+            if (['base', 'glasses', 'pen', 'hat'].includes(item.id)) {
+                WriterQuest.avatar.equippedItems.push(item.id);
+            }
+            
+            console.log(`Unlocked new avatar item: ${item.name}`);
+            // Could trigger notification here
+        }
+    });
+    
+    saveData();
 }
 
 // Update user streak
@@ -288,6 +332,42 @@ function getProjectsForDropdown() {
     }));
 }
 
+// Get avatar information
+function getAvatarInfo() {
+    return {
+        unlockedItems: WriterQuest.avatar.unlockedItems,
+        equippedItems: WriterQuest.avatar.equippedItems,
+        availableItems: WriterQuest.avatar.availableItems
+    };
+}
+
+// Toggle avatar item equipped state
+function toggleAvatarItem(itemId) {
+    // Check if item is unlocked
+    if (!WriterQuest.avatar.unlockedItems.includes(itemId)) {
+        return false;
+    }
+    
+    // Check if item is already equipped
+    const equippedIndex = WriterQuest.avatar.equippedItems.indexOf(itemId);
+    
+    if (equippedIndex > -1) {
+        // Don't unequip the base character
+        if (itemId === 'base') {
+            return false;
+        }
+        
+        // Unequip item
+        WriterQuest.avatar.equippedItems.splice(equippedIndex, 1);
+    } else {
+        // Equip item
+        WriterQuest.avatar.equippedItems.push(itemId);
+    }
+    
+    saveData();
+    return true;
+}
+
 // Get today's prompt
 function getTodaysPrompt() {
     // For now, just return the first prompt
@@ -306,5 +386,8 @@ window.dataManager = {
     completeProject: completeProject,
     getTodaysPrompt: getTodaysPrompt,
     getProjectsForDropdown: getProjectsForDropdown,
+    getAvatarInfo: getAvatarInfo,
+    toggleAvatarItem: toggleAvatarItem,
+    checkAvatarUnlocks: checkAvatarUnlocks,
     getData: () => WriterQuest
 };

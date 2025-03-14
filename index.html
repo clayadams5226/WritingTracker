@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -421,27 +423,27 @@
                         <div class="charts-container">
                             <div class="chart-box">
                                 <h3>Daily Word Count</h3>
-                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                                <canvas id="dailyWordCountChart"></canvas>
                             </div>
                             
                             <div class="chart-box">
                                 <h3>Productivity by Day of Week</h3>
-                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                                <canvas id="dayOfWeekChart"></canvas>
                             </div>
                             
                             <div class="chart-box">
                                 <h3>Productivity by Time of Day</h3>
-                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                                <canvas id="timeOfDayChart"></canvas>
                             </div>
                             
                             <div class="chart-box">
                                 <h3>Writing Efficiency (Words per Hour)</h3>
-                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                                <canvas id="efficiencyChart"></canvas>
                             </div>
                             
                             <div class="chart-box">
                                 <h3>Mood Impact</h3>
-                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                                <canvas id="moodImpactChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -512,6 +514,28 @@
                             </div>
                             <p class="skill-note">Based on prompt challenges completed</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Avatar Gallery Modal -->
+            <div id="avatar-gallery-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h3>Avatar Customization</h3>
+                    <div class="avatar-gallery-container">
+                        <div class="avatar-preview">
+                            <!-- Avatar will be displayed here -->
+                        </div>
+                        <div class="avatar-items">
+                            <h4>Available Items</h4>
+                            <div class="item-grid" id="avatar-item-grid">
+                                <!-- Items will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="secondary-button cancel-button">Close</button>
                     </div>
                 </div>
             </div>
