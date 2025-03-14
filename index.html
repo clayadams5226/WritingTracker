@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WriterQuest - Gamified Writing Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="app-title">WriterQuest</h1>
+            <div class="user-level">
+                <div class="level-bar">
+                    <div class="level-progress"></div>
+                </div>
+                <span class="level-text">Level 1 Writer</span>
+                <span class="xp-count">0 XP</span>
+            </div>
+        </header>
+        
+        <!-- Main content -->
+        <main class="app-content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="dashboard">Dashboard</button>
+                <button class="tab-button" data-tab="writing-entry">Writing Entry</button>
+                <button class="tab-button" data-tab="writing-log">Writing Log</button>
+                <button class="tab-button" data-tab="projects">Projects</button>
+                <button class="tab-button" data-tab="stats">Stats</button>
+                <button class="tab-button" data-tab="prompts">Prompts</button>
+            </div>
+            
+            <!-- Tab content -->
+            <div class="tab-content">
+                <!-- Dashboard Tab (shown by default) -->
+                <div class="tab-pane active" id="dashboard">
+                    <div class="dashboard-grid">
+                        <!-- Writing prompt section -->
+                        <div class="card prompt-card">
+                            <h2 class="card-title">Today's Writing Prompt</h2>
+                            <div class="prompt-content">
+                                <h3 class="prompt-title">"The Unexpected Visitor"</h3>
+                                <p class="prompt-description">Write a scene where your character answers their door to find someone they never expected to see again. What happens next?</p>
+                            </div>
+                            <div class="prompt-controls">
+                                <button class="primary-button">Start Writing</button>
+                                <span class="reward-text">Reward: 150 XP + "Prompt Master" Badge</span>
+                                <button class="secondary-button">Get Another Prompt</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Active quests section -->
+                        <div class="card quests-card">
+                            <h2 class="card-title">Active Quests</h2>
+                            <div class="quests-list">
+                                <div class="quest-item">
+                                    <span class="quest-name">"Morning Rush" (Write 750 words before noon)</span>
+                                </div>
+                                <div class="quest-item">
+                                    <span class="quest-name">"Prompt Challenge" (Write 500 words for prompt)</span>
+                                </div>
+                                <div class="quest-item">
+                                    <span class="quest-name">"7-Day Streak" (2 days to go)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Streak section -->
+                        <div class="card streak-card">
+                            <h2 class="card-title">Your Writing Streak</h2>
+                            <div class="streak-calendar">
+                                <!-- Calendar will be generated dynamically with JavaScript -->
+                                <div class="calendar-placeholder">Calendar loading...</div>
+                            </div>
+                            <div class="streak-info">
+                                <span class="streak-count">0 Day Streak</span>
+                                <span class="streak-bonus">+0 XP daily bonus</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Achievements section -->
+                        <div class="card achievements-card">
+                            <h2 class="card-title">Writing Achievements</h2>
+                            <div class="achievements-list">
+                                <div class="achievement-item locked">
+                                    <div class="achievement-icon">🔥</div>
+                                    <div class="achievement-details">
+                                        <h3 class="achievement-name">3-Day Streak</h3>
+                                        <p class="achievement-description">Write for 3 consecutive days</p>
+                                    </div>
+                                </div>
+                                <div class="achievement-item locked">
+                                    <div class="achievement-icon">⚡</div>
+                                    <div class="achievement-details">
+                                        <h3 class="achievement-name">Word Sprint</h3>
+                                        <p class="achievement-description">Write 500+ words in 30 minutes</p>
+                                    </div>
+                                </div>
+                                <div class="achievement-item locked">
+                                    <div class="achievement-icon">✍️</div>
+                                    <div class="achievement-details">
+                                        <h3 class="achievement-name">Prompt Master</h3>
+                                        <p class="achievement-description">Complete 3 writing prompts</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Avatar section -->
+                        <div class="card avatar-card">
+                            <h2 class="card-title">Your Writer Avatar</h2>
+                            <div class="avatar-display">
+                                <!-- Avatar will be implemented with CSS and JavaScript -->
+                                <div class="avatar-placeholder">Avatar loading...</div>
+                            </div>
+                            <div class="avatar-info">
+                                <div class="next-unlock">
+                                    <span>Next Unlock:</span>
+                                    <span class="unlock-item">Writer's Hat</span>
+                                    <div class="unlock-progress-bar">
+                                        <div class="unlock-progress"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="secondary-button">View Gallery</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Writing Entry Tab -->
+                <div class="tab-pane" id="writing-entry">
+                    <div class="card">
+                        <h2 class="card-title">Record Writing Session</h2>
+                        <form id="writing-form">
+                            <div class="form-group">
+                                <label for="entry-date">Date:</label>
+                                <input type="date" id="entry-date" name="date" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="project">Project:</label>
+                                <select id="project" name="project" required>
+                                    <option value="">Select Project</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="word-count">Word Count:</label>
+                                <input type="number" id="word-count" name="wordCount" min="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="time-spent">Time Spent (minutes):</label>
+                                <input type="number" id="time-spent" name="timeSpent" min="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="location">Writing Location:</label>
+                                <input type="text" id="location" name="location" placeholder="e.g., Home office, coffee shop">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="time-of-day">Time of Day:</label>
+                                <select id="time-of-day" name="timeOfDay">
+                                    <option value="morning">Morning (5am-12pm)</option>
+                                    <option value="afternoon">Afternoon (12pm-5pm)</option>
+                                    <option value="evening">Evening (5pm-9pm)</option>
+                                    <option value="night">Night (9pm-5am)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mood-before">Mood Before Writing (1-10):</label>
+                                <input type="number" id="mood-before" name="moodBefore" min="1" max="10">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mood-after">Mood After Writing (1-10):</label>
+                                <input type="number" id="mood-after" name="moodAfter" min="1" max="10">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="notes">Notes:</label>
+                                <textarea id="notes" name="notes" rows="4" placeholder="What worked well today? Any challenges? Ideas for tomorrow?"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="primary-button">Save Entry</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Writing Log Tab -->
+                <div class="tab-pane" id="writing-log">
+                    <div class="card">
+                        <h2 class="card-title">Writing Log</h2>
+                        <div class="filter-controls">
+                            <label for="log-filter">Filter by Project:</label>
+                            <select id="log-filter" name="log-filter">
+                                <option value="all">All Projects</option>
+                            </select>
+                        </div>
+                        <div class="log-table-container">
+                            <table class="log-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Project</th>
+                                        <th>Word Count</th>
+                                        <th>Time (min)</th>
+                                        <th>Location</th>
+                                        <th>Time of Day</th>
+                                        <th>WPH</th>
+                                        <th>Mood Change</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="log-table-body">
+                                    <!-- Will be populated dynamically -->
+                                    <tr>
+                                        <td colspan="9">No writing sessions recorded yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Projects Tab -->
+                <div class="tab-pane" id="projects">
+                    <div class="card">
+                        <h2 class="card-title">Project Tracking</h2>
+                        <div class="project-summary">
+                            <div class="summary-box">
+                                <div class="summary-title">Project Summary</div>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <div class="summary-label">Total Projects</div>
+                                        <div class="summary-value">0</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Most Productive Project</div>
+                                        <div class="summary-value">-</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Total Words (All Projects)</div>
+                                        <div class="summary-value">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="projects-table-container">
+                            <table class="projects-table">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>Type</th>
+                                        <th>Total Words</th>
+                                        <th>Total Time (hrs)</th>
+                                        <th>Avg Words/Hour</th>
+                                        <th>Days Worked</th>
+                                        <th>Status</th>
+                                        <th>Target Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="projects-table-body">
+                                    <!-- Will be populated dynamically -->
+                                    <tr>
+                                        <td colspan="9">No projects created yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <h3>Add New Project</h3>
+                        <form id="project-form">
+                            <div class="form-group">
+                                <label for="new-project-name">Project Name:</label>
+                                <input type="text" id="new-project-name" name="projectName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="project-type">Project Type:</label>
+                                <select id="project-type" name="projectType" required>
+                                    <option value="novel">Novel</option>
+                                    <option value="shortstory">Short Story</option>
+                                    <option value="blog">Blog Post</option>
+                                    <option value="article">Article</option>
+                                    <option value="poetry">Poetry</option>
+                                    <option value="script">Script</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="target-words">Target Word Count:</label>
+                                <input type="number" id="target-words" name="targetWords" min="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="target-date">Target Completion Date:</label>
+                                <input type="date" id="target-date" name="targetDate">
+                            </div>
+                            
+                            <button type="submit" class="primary-button">Add Project</button>
+                        </form>
+
+                        <!-- Edit Project Modal -->
+                        <div id="edit-project-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-button">&times;</span>
+                                <h3>Edit Project</h3>
+                                <form id="edit-project-form">
+                                    <input type="hidden" id="edit-project-id" name="projectId">
+                                    
+                                    <div class="form-group">
+                                        <label for="edit-project-name">Project Name:</label>
+                                        <input type="text" id="edit-project-name" name="projectName" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="edit-project-type">Project Type:</label>
+                                        <select id="edit-project-type" name="projectType" required>
+                                            <option value="novel">Novel</option>
+                                            <option value="shortstory">Short Story</option>
+                                            <option value="blog">Blog Post</option>
+                                            <option value="article">Article</option>
+                                            <option value="poetry">Poetry</option>
+                                            <option value="script">Script</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="edit-target-words">Target Word Count:</label>
+                                        <input type="number" id="edit-target-words" name="targetWords" min="0">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="edit-target-date">Target Completion Date:</label>
+                                        <input type="date" id="edit-target-date" name="targetDate">
+                                    </div>
+                                    
+                                    <button type="submit" class="primary-button">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Delete Confirmation Modal -->
+                        <div id="delete-confirm-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-button">&times;</span>
+                                <h3>Confirm Deletion</h3>
+                                <p>Are you sure you want to delete this project? This action cannot be undone.</p>
+                                <input type="hidden" id="delete-project-id">
+                                <div class="modal-buttons">
+                                    <button id="confirm-delete-btn" class="danger-button">Delete Project</button>
+                                    <button class="secondary-button cancel-button">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Complete Project Modal -->
+                        <div id="complete-project-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-button">&times;</span>
+                                <h3>Complete Project</h3>
+                                <p>Congratulations on finishing your project! Marking it as complete will earn you 500 XP.</p>
+                                <input type="hidden" id="complete-project-id">
+                                <div class="modal-buttons">
+                                    <button id="confirm-complete-btn" class="primary-button">Mark as Complete</button>
+                                    <button class="secondary-button cancel-button">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Tab -->
+                <div class="tab-pane" id="stats">
+                    <div class="card">
+                        <h2 class="card-title">Writing Analytics</h2>
+                        
+                        <div class="stats-summary">
+                            <div class="summary-box">
+                                <div class="summary-title">Your Writing At A Glance</div>
+                                <div class="summary-grid">
+                                    <div class="summary-item">
+                                        <div class="summary-label">Total Words Written</div>
+                                        <div class="summary-value">0</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Current Streak</div>
+                                        <div class="summary-value">0 days</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Average Daily Words</div>
+                                        <div class="summary-value">0</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Best Day</div>
+                                        <div class="summary-value">-</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Most Productive Time</div>
+                                        <div class="summary-value">-</div>
+                                    </div>
+                                    <div class="summary-item">
+                                        <div class="summary-label">Best Location</div>
+                                        <div class="summary-value">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="charts-container">
+                            <div class="chart-box">
+                                <h3>Daily Word Count</h3>
+                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                            </div>
+                            
+                            <div class="chart-box">
+                                <h3>Productivity by Day of Week</h3>
+                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                            </div>
+                            
+                            <div class="chart-box">
+                                <h3>Productivity by Time of Day</h3>
+                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                            </div>
+                            
+                            <div class="chart-box">
+                                <h3>Writing Efficiency (Words per Hour)</h3>
+                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                            </div>
+                            
+                            <div class="chart-box">
+                                <h3>Mood Impact</h3>
+                                <div class="chart-placeholder">Chart will be displayed when data is available</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Prompts Tab -->
+                <div class="tab-pane" id="prompts">
+                    <div class="card">
+                        <h2 class="card-title">Prompt Archive</h2>
+                        
+                        <div class="prompt-categories">
+                            <button class="category-button active" data-category="all">All</button>
+                            <button class="category-button" data-category="fiction">Fiction</button>
+                            <button class="category-button" data-category="character">Character</button>
+                            <button class="category-button" data-category="setting">Setting</button>
+                        </div>
+                        
+                        <div class="prompts-list" id="prompts-list">
+                            <!-- Will be populated dynamically -->
+                            <div class="prompt-item active">
+                                <h3 class="prompt-item-title">"The Unexpected Visitor" (Today)</h3>
+                                <span class="prompt-status">Active</span>
+                            </div>
+                            <div class="prompt-item completed">
+                                <h3 class="prompt-item-title">"The Secret Door" (Previous)</h3>
+                                <span class="prompt-status">Completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-development">
+                            <h3>Skill Development</h3>
+                            <div class="skill-bars">
+                                <div class="skill-item">
+                                    <div class="skill-label">Dialogue</div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="skill-percentage">0%</div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-label">Character Development</div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="skill-percentage">0%</div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-label">Setting</div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="skill-percentage">0%</div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-label">Plot Structure</div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="skill-percentage">0%</div>
+                                </div>
+                                <div class="skill-item">
+                                    <div class="skill-label">Description</div>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" style="width: 0%"></div>
+                                    </div>
+                                    <div class="skill-percentage">0%</div>
+                                </div>
+                            </div>
+                            <p class="skill-note">Based on prompt challenges completed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- JavaScript files -->
+    <script src="js/data.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
